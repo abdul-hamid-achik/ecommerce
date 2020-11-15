@@ -1,0 +1,29 @@
+<div class="bg-white overflow-hidden shadow rounded-lg">
+  <div class="border-b border-gray-200 px-4 py-5 sm:px-6">
+    <div class="grid grid-cols-2">
+      <div>
+        <%= @product.name %>
+      </div>
+      <div>
+        $<%= @product.price %>
+      </div>
+    </div>
+  </div>
+  <div class="px-4 py-5 sm:p-6">
+    <!-- Content goes here -->
+      <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-1 border-gray-300 border-solid rounded-md">
+        <img class="object-contain h-48 w-full" src="<%= Ecommerce.Uploaders.ProductUploader.url @product.image %>" />
+      </div>
+      <div class="mt-2">
+        <p class="text-sm leading-5 text-gray-500">
+          <%= @product.description %>
+        </p>
+      </div>
+  </div>
+  <div class="bg-gray-50 px-4 py-4 sm:px-6">
+    <span class="relative z-0 inline-flex shadow-sm">
+      <%= link "Back", to: Routes.product_path(@conn, :index), class: "relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" %>
+      <%= link "Edit", to: Routes.product_path(@conn, :edit, @product), class: "-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" %>
+    </span>
+  </div>
+</div>

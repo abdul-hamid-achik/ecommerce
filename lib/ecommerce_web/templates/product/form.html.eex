@@ -1,0 +1,94 @@
+<%= form_for @changeset, @action, [multipart: true], fn f -> %>
+<div class="shadow sm:rounded-md sm:overflow-hidden">
+  <%= if @changeset.action do %>
+  <div class="alert alert-danger">
+    <p>Oops, something went wrong! Please check the errors below.</p>
+  </div>
+  <% end %>
+  <div class="px-4 py-5 bg-white sm:p-6">
+    <div class="grid grid-cols-3 gap-6">
+      <div class="col-span-3">
+        <%= label f, :name, class: "block text-sm font-medium leading-5 text-gray-700" %>
+        <div class="mt-1 flex rounded-md shadow-sm">
+          <%= text_input f, :name, class: "form-input flex-1 block w-full rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+        </div>
+        <%= error_tag f, :name %>
+      </div>
+    </div>
+    <div class="mt-6" x-data="{preview: '<%= Ecommerce.Uploaders.ProductUploader.url f.data.image %>'}">
+      <%= label f, :image, class: "block text-sm leading-5 font-medium text-gray-700" %>
+      <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md"
+        x-show="preview == ''"
+        x-on:dragover.prevent="null"
+        x-on:drop.prevent="$refs.input.files = $event.dataTransfer.files"
+        >
+        <%= file_input f, :image, class: "hidden", x_ref: "input", "x_on:input": "preview = getPreviewURL($event.target.files[0], $refs.previewElement)", accept: "image/x-png,image/gif,image/jpeg" %>
+        <div class="text-center">
+          <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <p class="mt-1 text-sm text-gray-600">
+            <button x-on:click.prevent="$refs.input.click()" class="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition duration-150 ease-in-out">
+            Upload a file
+            </button>
+            or drag and drop
+          </p>
+          <p class="mt-1 text-xs text-gray-500">
+            PNG, JPG, GIF up to 10MB
+          </p>
+        </div>
+        
+      </div>
+      <%= error_tag f, :image %>
+      <div x-show="preview != ''" class="mt-2 flex justify-center px-6 pt-5 pb-6 border-1 border-gray-300 border-solid rounded-md">
+        <img class="object-contain h-48 w-full" x-ref="previewElement" src="<%= Ecommerce.Uploaders.ProductUploader.url f.data.image %>"/>
+        <div class="ml-auto pl-3">
+          <div class="-mx-1.5 -my-1.5">
+            <button class="inline-flex rounded-md p-1.5 text-grey-500 hover:bg-grey-100 focus:outline-none focus:bg-grey-100 transition ease-in-out duration-150" aria-label="Dismiss"
+            @click.prevent="$refs.input.value = ''; $refs.previewElement.src = ''; preview = ''">
+              <svg class="h-5 w-5" 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 20 20" 
+                fill="currentColor">
+                <path fill-rule="evenodd" 
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" 
+                  clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-6">
+      <div class="col-span-3 sm:col-span-2">
+        <%= label f, :price, class: "block text-sm font-medium leading-5 text-gray-700" %>
+        <div class="mt-1 flex rounded-md shadow-sm">
+          <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+            $
+          </span>
+          <%= number_input f, :price, step: "any", class: "form-input flex-1 block w-full rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+        </div>
+        <%= error_tag f, :price %>
+      </div>
+    </div>
+    
+    <div class="mt-6">
+      <%= label f, :description, for: "description", class: "block text-sm leading-5 font-medium text-gray-700" %>
+      <div class="rounded-md shadow-sm">
+        <%= textarea f, :description, rows: "3", class: "form-textarea mt-1 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+      </div>
+      <%= error_tag f, :description %>
+      <p class="mt-2 text-sm text-gray-500">
+        Brief description for your product.
+      </p>
+    </div>
+  </div>
+</div>
+<div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+  <span class="relative z-0 inline-flex shadow-sm rounded-md">
+    <%= link "Back", to: Routes.product_path(@conn, :index), class: "py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out" %>
+    <%= submit "Save", class: "-ml-px relative inline-flex items-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out" %>
+  </span>
+</div>
+</div>
+<% end %>

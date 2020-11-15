@@ -1,0 +1,70 @@
+<div class="pb-5 border-b border-gray-200 space-y-3 sm:flex sm:items-center sm:justify-between sm:space-x-4 sm:space-y-0">
+  <h3 class="text-lg leading-6 font-medium text-gray-900">
+    Listing Products
+  </h3>
+  <div>
+    <span class="shadow-sm rounded-md">
+      <%= link "New Product", to: Routes.product_path(@conn, :new), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out" %>
+    </span>
+  </div>
+</div>
+
+<div class="flex flex-col">
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead>
+            <tr>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Name
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Image
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Price
+              </th>
+              <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Description
+              </th>
+              <th class="px-6 py-3 bg-gray-50"></th>
+              <th class="px-6 py-3 bg-gray-50"></th>
+              <th class="px-6 py-3 bg-gray-50"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%= for {product, index} <- Enum.with_index(@products) do %>
+              <tr class="<%= if Integer.is_odd(index) do %>bg-white<% else %>bg-gray-50<% end %>">
+                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                  <%= product.name %>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                  <a class="text-indigo-600 hover:text-indigo-900" href="<%= Ecommerce.Uploaders.ProductUploader.url product.image %>">
+                    Preview
+                  </a>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                  <%= product.price %>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                  <%= product.description %>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                  <%= link "Show", to: Routes.product_path(@conn, :show, product), class: "text-indigo-600 hover:text-indigo-900" %>
+                </td>
+                <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                  <%= link "Edit", to: Routes.product_path(@conn, :edit, product), class: "text-indigo-600 hover:text-indigo-900" %>
+                </td>
+
+                <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                  <%= link "Delete", to: Routes.product_path(@conn, :delete, product), method: :delete, data: [confirm: "Are you sure?"], class: "text-indigo-600 hover:text-indigo-900" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
