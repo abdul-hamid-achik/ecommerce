@@ -4,8 +4,9 @@ Making this ecommerce application to practice elixir and liveview, also planning
 
 ## Installation
 
-- [http://taskfile.dev](taskfile)
-- [https://asdf-vm.com/#/](asdf)
+- [taskfile](http://taskfile.dev)
+- [asdf](https://asdf-vm.com/)
+- asdf plugins:
   - asdf-elixir
   - asdf-erlang
   - asdf-nodejs
@@ -17,5 +18,5 @@ Making this ecommerce application to practice elixir and liveview, also planning
 
 ## Production Environment
 
-Check development file, i'm using [https://hexdocs.pm/phoenix/releases.html](releases) to generate a binary inside a dockerfile
+Check development file, i'm using [releases](https://hexdocs.pm/phoenix/releases.html) to generate a binary inside a dockerfile
 
