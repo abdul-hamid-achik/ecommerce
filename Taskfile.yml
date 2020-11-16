@@ -16,8 +16,9 @@ tasks:
 
   clean:
     - mix clean
-    - mix ecto.reset
+    - mix ecto.drop
     - rm -rf ./assets/node_modules
+    - rm -rf ./uploads
 
   migrate:
     cmds:
@@ -34,6 +35,9 @@ tasks:
       - mix compile
       - mix ecto.setup
       - npm install --prefix assets
+
+  seed:
+    - mix run priv/repo/seeds.exs
 
   test:
     cmds:

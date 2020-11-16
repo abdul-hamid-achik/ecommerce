@@ -9,3 +9,12 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+import Ecommerce.Factory
+
+Ecommerce.Accounts.create_account(%{
+  email: "abdulachik@gmail.com",
+  password: "password"
+})
+
+insert_list(30, :product)
+insert_list(10, :account)

@@ -10,37 +10,12 @@
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <!--
-      Tailwind UI components require Tailwind CSS v1.8 and the @tailwindcss/ui plugin.
-      Read the documentation to get started: https://tailwindui.com/documentation
-    -->
     <div class="h-screen flex overflow-hidden bg-gray-100">
-      <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
       <div class="md:hidden sm:hidden">
         <div class="fixed inset-0 flex z-40">
-          <!--
-            Off-canvas menu overlay, show/hide based on off-canvas menu state.
-
-            Entering: "transition-opacity ease-linear duration-300"
-              From: "opacity-0"
-              To: "opacity-100"
-            Leaving: "transition-opacity ease-linear duration-300"
-              From: "opacity-100"
-              To: "opacity-0"
-          -->
           <div class="fixed inset-0">
             <div class="absolute inset-0 bg-gray-600 opacity-75"></div>
           </div>
-          <!--
-            Off-canvas menu, show/hide based on off-canvas menu state.
-
-            Entering: "transition ease-in-out duration-300 transform"
-              From: "-translate-x-full"
-              To: "translate-x-0"
-            Leaving: "transition ease-in-out duration-300 transform"
-              From: "translate-x-0"
-              To: "-translate-x-full"
-          -->
           <div class="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-gray-800">
             <div class="absolute top-0 right-0 -mr-14 p-1">
               <button class="flex items-center justify-center h-12 w-12 rounded-full focus:outline-none focus:bg-gray-600" aria-label="Close sidebar">
@@ -71,15 +46,12 @@
             </div>
           </div>
           <div class="flex-shrink-0 w-14">
-            <!-- Dummy element to force sidebar to shrink to fit close icon -->
           </div>
         </div>
       </div>
 
-      <!-- Static sidebar for desktop -->
       <div class="hidden md:flex md:flex-shrink-0">
         <div class="flex flex-col w-64">
-          <!-- Sidebar component, swap this element with another sidebar if you like -->
           <div class="flex flex-col h-0 flex-1">
             <div class="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">
               <h2 class="text-base text-white">Ecommerce</h2>
@@ -132,34 +104,32 @@
                 </svg>
               </button>
 
-              <!-- Profile dropdown -->
               <div class="ml-3 relative" x-data="{ open: false }">
                 <div>
                   <button class="max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:shadow-outline" id="user-menu" aria-label="User menu" aria-haspopup="true"  @click="open = !open">
-                    <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                    <%= if Pow.Plug.current_user(@conn) do %>
+                      <img class="h-8 w-8 rounded-full" src="<%= Ecommerce.Uploaders.Avatar.url @current_user.avatar %>" alt="">
+                    <% end %>
                   </button>
                 </div>
-                <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg"x-show="open" 
-                x-cloak
-                x-transition:enter="transition ease-out duration-100"
-                x-transition:enter-start="transform opacity-0 scale-95"
-                x-transition:enter-end="transform opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-75"
-                x-transition:leave-start="transform opacity-100 scale-100"
-                x-transition:leave-end="transform opacity-0 scale-95"
-                >
+                <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg"
+                  x-show="open" 
+                  x-cloak
+                  x-transition:enter="transition ease-out duration-100"
+                  x-transition:enter-start="transform opacity-0 scale-95"
+                  x-transition:enter-end="transform opacity-100 scale-100"
+                  x-transition:leave="transition ease-in duration-75"
+                  x-transition:leave-start="transform opacity-100 scale-100"
+                  x-transition:leave-end="transform opacity-0 scale-95">
                   <div class="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition ease-in-out duration-150" role="menuitem">Your Profile</a>
-
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition ease-in-out duration-150" role="menuitem">Settings</a>
-                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition ease-in-out duration-150" role="menuitem">Sign out</a>
+                    <%= link "Settings", to: Routes.pow_registration_path(@conn, :edit), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition ease-in-out duration-150", role: "menuitem" %>
+                    <%= link "Sign Out", to: Routes.pow_session_path(@conn, :delete), class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition ease-in-out duration-150", role: "menuitem", method: :delete %>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <main class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
           <div class="pt-2 pb-6 md:py-6">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">

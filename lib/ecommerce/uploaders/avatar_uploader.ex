@@ -1,4 +1,4 @@
-defmodule Ecommerce.Uploaders.Product do
+defmodule Ecommerce.Uploaders.Avatar do
   use Waffle.Definition
   use Waffle.Ecto.Definition
 

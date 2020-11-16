@@ -54,6 +54,8 @@ defmodule Ecommerce.MixProject do
       {:hackney, "~> 1.9"},
       {:sweet_xml, "~> 0.6"},
       {:ex_machina, "~> 2.4"},
+      {:faker, "~> 0.16"},
+      {:ecto_enum, "~> 1.4"},
       {:waffle_ecto, "~> 0.0.9"}
     ]
   end

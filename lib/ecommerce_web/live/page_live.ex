@@ -1,9 +1,11 @@
 defmodule EcommerceWeb.PageLive do
   use EcommerceWeb, :live_view
+  alias Ecommerce.Catalog
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, query: "", results: %{})}
+    products = Catalog.list_products()
+    {:ok, assign(socket, query: "", results: %{}, products: products)}
   end
 
   @impl true

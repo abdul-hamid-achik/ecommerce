@@ -10,9 +10,8 @@
     </div>
   </div>
   <div class="px-4 py-5 sm:p-6">
-    <!-- Content goes here -->
       <div class="mt-2 flex justify-center px-6 pt-5 pb-6 border-1 border-gray-300 border-solid rounded-md">
-        <img class="object-contain h-48 w-full" src="<%= Ecommerce.Uploaders.ProductUploader.url @product.image %>" />
+        <img class="object-contain h-48 w-full" src="<%= Ecommerce.Uploaders.Product.url @product.image %>" />
       </div>
       <div class="mt-2">
         <p class="text-sm leading-5 text-gray-500">

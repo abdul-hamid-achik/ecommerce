@@ -40,7 +40,7 @@
                   <%= product.name %>
                 </td>
                 <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                  <a class="text-indigo-600 hover:text-indigo-900" href="<%= Ecommerce.Uploaders.ProductUploader.url product.image %>">
+                  <a class="text-indigo-600 hover:text-indigo-900" href="<%= Ecommerce.Uploaders.Product.url product.image %>">
                     Preview
                   </a>
                 </td>

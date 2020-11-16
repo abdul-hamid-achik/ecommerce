@@ -24,7 +24,7 @@ config :waffle,
   asset_host: "http://localhost:4000"
 
 config :ecommerce, :pow,
-  user: Ecommerce.Users.User,
+  user: Ecommerce.Accounts.User,
   repo: Ecommerce.Repo,
   web_module: EcommerceWeb
 

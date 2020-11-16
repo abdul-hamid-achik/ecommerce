@@ -5,7 +5,7 @@ defmodule Ecommerce.Catalog.Product do
 
   schema "products" do
     field :description, :string
-    field :image, Ecommerce.Uploaders.ProductUploader.Type
+    field :image, Ecommerce.Uploaders.Product.Type
     field :name, :string
     field :price, :decimal
 
