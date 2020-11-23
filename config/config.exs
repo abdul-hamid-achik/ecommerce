@@ -26,7 +26,8 @@ config :waffle,
 config :ecommerce, :pow,
   user: Ecommerce.Accounts.User,
   repo: Ecommerce.Repo,
-  web_module: EcommerceWeb
+  web_module: EcommerceWeb,
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks
 
 # Configures Elixir's Logger
 config :logger, :console,

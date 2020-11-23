@@ -13,8 +13,10 @@ import Ecommerce.Factory
 
 Ecommerce.Accounts.create_account(%{
   email: "abdulachik@gmail.com",
-  password: "password"
+  password: "password",
+  password_confirmation: "password",
+  password_hash: Pow.Ecto.Schema.Password.pbkdf2_hash("password")
 })
 
 insert_list(30, :product)
-insert_list(10, :account)
+insert_list(5, :account)

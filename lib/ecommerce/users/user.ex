@@ -4,10 +4,10 @@ defmodule Ecommerce.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
-    pow_user_fields()
     field :avatar, Ecommerce.Uploaders.Avatar.Type
-
     has_many :orders, Ecommerce.Store.Order
+
+    pow_user_fields()
     timestamps()
   end
 
@@ -15,5 +15,6 @@ defmodule Ecommerce.Accounts.User do
     user
     |> cast(attributes, [:email, :password])
     |> unique_constraint(:email)
+    |> pow_changeset(attributes)
   end
 end
