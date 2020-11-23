@@ -1,6 +1,4 @@
-# Ecommerce
-[![CI](https://github.com/sicksid/ecommerce/workflows/elixir/badge.svg)](https://github.com/sicksid/ecommerce/actions)
-
+# Ecommerce ![Elixir CI](https://github.com/sicksid/ecommerce/workflows/Elixir%20CI/badge.svg)
 Making this ecommerce application to practice elixir and liveview, also planning to use this as an example for the savi engineering blogpost on testing live view
 
 ## Installation
