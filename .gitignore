@@ -35,3 +35,5 @@ npm-debug.log
 /uploads/
 
 *.sublime-workspace
+.DS_Store
+**/.DS_Store

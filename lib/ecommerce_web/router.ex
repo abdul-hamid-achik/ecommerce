@@ -35,12 +35,11 @@ defmodule EcommerceWeb.Router do
     pipe_through [:browser, :protected]
 
     resources "/products", ProductController
+    live "/", PageLive, :index
   end
 
   scope "/", EcommerceWeb do
     pipe_through :browser
-
-    live "/", PageLive, :index
   end
 
   # Other scopes may use custom stacks.

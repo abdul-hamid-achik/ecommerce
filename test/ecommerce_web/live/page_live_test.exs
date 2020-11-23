@@ -2,10 +2,16 @@ defmodule EcommerceWeb.PageLiveTest do
   use EcommerceWeb.ConnCase
 
   import Phoenix.LiveViewTest
-
+  @tag :wip
   test "disconnected and connected render", %{conn: conn} do
-    {:ok, page_live, disconnected_html} = live(conn, "/")
-    assert disconnected_html =~ "Welcome to Phoenix!"
-    assert render(page_live) =~ "Welcome to Phoenix!"
+    assert {
+             :error,
+             {
+               :redirect,
+               %{
+                 to: "/session/new?request_path=%2F"
+               }
+             }
+           } = live(conn, "/")
   end
 end

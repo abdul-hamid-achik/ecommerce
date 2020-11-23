@@ -29,6 +29,11 @@ tasks:
     cmds:
       - mix phx.server
 
+  start.iex:
+    deps: [migrate]
+    cmds:
+      - iex -S mix phx.server
+
   setup:
     cmds:
       - mix deps.get
@@ -38,6 +43,11 @@ tasks:
 
   seed:
     - mix run priv/repo/seeds.exs
+
+  iex:
+    deps: [migrate]
+    cmds:
+      - iex -S mix
 
   test:
     cmds:

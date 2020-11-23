@@ -6,6 +6,8 @@ defmodule Ecommerce.Accounts.User do
   schema "users" do
     pow_user_fields()
     field :avatar, Ecommerce.Uploaders.Avatar.Type
+
+    has_many :orders, Ecommerce.Store.Order
     timestamps()
   end
 

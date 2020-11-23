@@ -1,38 +1,14 @@
+<div class="pb-5 border-b border-gray-200 space-y-3 sm:flex sm:items-center sm:justify-between sm:space-x-4 sm:space-y-0">
+  <h3 class="text-lg leading-6 font-medium text-gray-900">
+  </h3>
+  <div class="flex space-x-3">
+    <%= live_component @socket, Ecommerce.Components.Cart %>
+  </div>
+</div>
 <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
   <%= for product <- @products do %>
-  <li class="col-span-1 bg-white rounded-lg shadow">
-    <div class="w-full flex items-center justify-between p-6 space-x-6">
-      <div class="flex-1 truncate">
-        <div class="flex items-center space-x-3">
-          <h3 class="text-gray-900 text-sm leading-5 font-medium truncate"><%= product.name %></h3>
-          <span class="flex-shrink-0 inline-block px-2 py-0.5 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full">$<%= product.price %></span>
-        </div>
-        <p class="mt-1 text-gray-500 text-sm leading-5 truncate"><%= product.description %></p>
-      </div>
-      <img class="w-10 h-10 bg-gray-300 rounded-full flex-shrink-0" src="<%= Ecommerce.Uploaders.Product.url product.image %>" alt="">
-    </div>
-    <div class="border-t border-gray-200">
-      <div class="-mt-px flex">
-        <div class="w-0 flex-1 flex border-r border-gray-200">
-          <a href="#" class="relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: mail -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z" />
-            </svg>
-            <span class="ml-3">View More</span>
-          </a>
-        </div>
-        <div class="-ml-px w-0 flex-1 flex">
-          <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150">
-            <!-- Heroicon name: phone -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-            <span class="ml-3">Add To Cart</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </li>
+    <li>
+      <%= live_component @socket, Ecommerce.Components.Product, product: product %>
+    </li>
   <% end %>
 </ul>
