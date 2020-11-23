@@ -54,7 +54,7 @@ defmodule Ecommerce.Accounts do
 
   """
   def create_account(attrs \\ %{}) do
-    pow_create(attrs) |> IO.inspect()
+    pow_create(attrs)
   end
 
   @doc """
