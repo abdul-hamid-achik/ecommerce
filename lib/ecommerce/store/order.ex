@@ -1,10 +1,15 @@
 defmodule Ecommerce.Store.Order do
   use Ecto.Schema
   import Ecto.Changeset
+  import EctoEnum
 
   @allowed_params []
 
+  defenum(StatusEnum, :status, [:open, :paid, :sent, :delivered])
+
   schema "orders" do
+    field :status, StatusEnum
+
     has_many :lines, Ecommerce.Store.OrderLine
     belongs_to :user, Ecommerce.Accounts.User
     timestamps()

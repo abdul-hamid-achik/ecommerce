@@ -1,26 +1,38 @@
 defmodule EcommerceWeb.PageLive do
   use EcommerceWeb, :live_view
-  alias Ecommerce.{Catalog, Store, Store.Cart}
+  alias Ecommerce.{Catalog, Store, Store.Cart, Store.Order, Store.OrderLine}
+  alias EcommerceWeb.Credentials
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
     products = Catalog.list_products()
-    {:ok, assign(socket, query: "", results: %{}, products: products)}
+    current_user = Credentials.get_user(socket, session)
+    changeset = Order.changeset(%Order{lines: []}, %{user: current_user}) |> IO.inspect()
+    {:ok, assign(socket, changeset: changeset, current_user: current_user, products: products)}
   end
 
   @impl true
-  def handle_event("add-product", %{"product_id" => product_id}, socket) do
+  def handle_event(
+        "add-product",
+        %{"product_id" => product_id},
+        %{assigns: %{changeset: order}} = socket
+      ) do
     product = Catalog.get_product!(product_id)
-    order = fetch_order(socket)
-    updated_order = Cart.add_product(order, product, 1)
-    {:noreply, assign(socket, order: updated_order)}
+
+    order_line =
+      OrderLine.changeset(%OrderLine{}, %{
+        product: product,
+        order: order,
+        quantity: 1
+      })
+
+    changeset = Order.changeset(order, %{lines: [order_line]})
+    {:noreply, assign(socket, changeset: changeset)}
   end
 
-  defp fetch_order(%{assigns: %{order: nil, current_user: user}} = _socket) do
-    Store.create_order(%{user: user})
+  def handle_event("validate", _params, _socket) do
   end
 
-  defp fetch_order(%{assigns: %{order: order}} = _socket) do
-    order
+  def handle_event("save", _params, _socket) do
   end
 end
