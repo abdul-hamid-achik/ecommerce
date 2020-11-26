@@ -1,6 +1,6 @@
 defmodule Ecommerce.Store.Cart do
   import Ecto.Query, warn: false
-  alias Ecommerce.{Repo, Store}
+  alias Ecommerce.{Repo, Store, Catalog.Product}
 
   @spec add_product(Order.t(), Product.t(), number()) ::
           {:ok, Order.t()} | {:error, Ecto.Changeset.t()} | {:error, any()}
@@ -41,4 +41,29 @@ defmodule Ecommerce.Store.Cart do
       error -> error
     end
   end
+
+  @spec is_product_in_car?(Ecto.Changeset.t(), Product.t()) :: boolean()
+  def is_product_in_car?(
+        %{
+          changes: %{
+            lines: [
+              %Ecto.Changeset{
+                changes:
+                  %{
+                    product_id: product_id
+                  } = _changes
+              }
+            ]
+          }
+        } = _changeset,
+        %Product{id: verify_product_id} = _product
+      )
+      when verify_product_id == product_id,
+      do: true
+
+  def is_product_in_car?(
+        _changeset,
+        _product
+      ),
+      do: false
 end

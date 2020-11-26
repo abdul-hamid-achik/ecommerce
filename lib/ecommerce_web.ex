@@ -89,6 +89,8 @@ defmodule EcommerceWeb do
 
       import EcommerceWeb.ErrorHelpers
       import EcommerceWeb.Gettext
+      import EcommerceWeb.LiveHelpers
+
       alias EcommerceWeb.Router.Helpers, as: Routes
     end
   end

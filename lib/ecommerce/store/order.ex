@@ -16,11 +16,13 @@ defmodule Ecommerce.Store.Order do
   end
 
   @doc false
+  def changeset(order, attrs \\ %{})
+
   def changeset(order, attrs) do
     order
     |> cast(attrs, @allowed_params)
-    |> cast_assoc(:lines)
     |> validate_required([])
+    |> cast_assoc(:lines)
     |> put_assoc(:user, Map.get(attrs, :user))
   end
 end

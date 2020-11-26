@@ -4,6 +4,8 @@ defmodule Ecommerce.Store.OrderLine do
 
   alias Ecommerce.{Store.Order, Catalog.Product}
 
+  @required [:quantity, :product_id]
+
   schema "order_lines" do
     field :quantity, :integer
     belongs_to :order, Order
@@ -15,9 +17,7 @@ defmodule Ecommerce.Store.OrderLine do
   @doc false
   def changeset(order_line, attrs) do
     order_line
-    |> cast(attrs, [:quantity])
-    |> put_assoc(:order, Map.get(attrs, :order, order_line.order))
-    |> put_assoc(:product, Map.get(attrs, :product, order_line.product))
-    |> validate_required([:quantity])
+    |> cast(attrs, @required)
+    |> validate_required(@required)
   end
 end

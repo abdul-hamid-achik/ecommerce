@@ -1,5 +1,7 @@
-<div class="relative inline-block text-left" x-data="{ open: false }" 
-        @click.prevent="open = false", >
+<div class="relative inline-block text-left" 
+  id="cart"
+  x-data="{ open: false }" 
+  @click.prevent="open = false", >
   <div>
     <span class="rounded-md shadow-sm">
       <%= submit [
@@ -7,13 +9,14 @@
         aria_label: "Cart", 
         "@click.prevent": "open = !open", 
         "@mouseover": "open = true", 
-        "@mouseleave.debounce.750ms": "open = false"
+        id: "cart--button"
+        # "@mouseleave.debounce.750ms": "open = false"
       ] do %>
         <i class="fas fa-shopping-cart"></i>
       <% end %>
     </span>
   </div>
-  <div class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg" 
+  <div id="cart--list" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg" 
     x-show="open" 
     x-cloak
     x-transition:enter="transition ease-out duration-100"
@@ -25,9 +28,18 @@
     <div class="rounded-md bg-white shadow-xs">
       <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
         <%= inputs_for @form, :lines, fn pf -> %>
-          <div href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700" role="menuitem">
-              <%= inspect pf %>
-              <%= number_input pf, :quantity %>
+          <div id="cart--list-product" href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700" role="menuitem">
+              <span><%= get_product_name pf.params["product_id"] %></span>
+              <span><%= inspect pf.params["quantity"] %></span>
+              <button phx-click="increase-product-quantity" phx-value-product_id='<%= pf.params["product_id"] %>'>
+                <i class="fas fa-plus"></i>
+              </button>
+              <button phx-click="decrease-product-quantity" phx-value-product_id='<%= pf.params["product_id"] %>'>
+                <i class="fas fa-minus"></i>
+              </button>
+              <span phx-click="remove-product" phx-value-product_id='<%= pf.params["product_id"] %>'>
+                <i class="fas fa-times"></i>
+              </span>
           </div>
         <% end %>
       </div>

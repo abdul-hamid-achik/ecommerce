@@ -1,6 +1,7 @@
 defmodule Ecommerce.CatalogTest do
   use Ecommerce.DataCase
   import Ecommerce.Factory
+
   alias Ecommerce.Catalog
 
   @valid_attrs %{

@@ -9,7 +9,7 @@
   <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
     <%= for product <- @products do %>
       <li>
-        <%= live_component @socket, Ecommerce.Components.Product, product: product, id: product.id %>
+        <%= live_component @socket, Ecommerce.Components.Product, changeset: @changeset, product: product, id: product.id %>
       </li>
     <% end %>
   </ul>

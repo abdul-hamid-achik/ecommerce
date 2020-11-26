@@ -1,14 +1,25 @@
 defmodule EcommerceWeb.PageLive do
   use EcommerceWeb, :live_view
-  alias Ecommerce.{Catalog, Store, Store.Cart, Store.Order, Store.OrderLine}
+  alias Ecommerce.{Catalog, Store.Order, Store.Orders, Store.OrderLine, Catalog.Product}
   alias EcommerceWeb.Credentials
+
+  def get_product_name(product_id) do
+    %Product{name: name} = Catalog.get_product!(product_id)
+    name
+  end
 
   @impl true
   def mount(_params, session, socket) do
     products = Catalog.list_products()
     current_user = Credentials.get_user(socket, session)
-    changeset = Order.changeset(%Order{lines: []}, %{user: current_user}) |> IO.inspect()
-    {:ok, assign(socket, changeset: changeset, current_user: current_user, products: products)}
+    changeset = Order.changeset(%Order{lines: []}, %{user: current_user})
+
+    {:ok,
+     assign(socket,
+       changeset: changeset,
+       current_user: current_user,
+       products: products
+     )}
   end
 
   @impl true
@@ -17,16 +28,57 @@ defmodule EcommerceWeb.PageLive do
         %{"product_id" => product_id},
         %{assigns: %{changeset: order}} = socket
       ) do
-    product = Catalog.get_product!(product_id)
+    {:noreply, assign(socket, changeset: Orders.add_product_to_order(order, product_id))}
+  end
 
-    order_line =
-      OrderLine.changeset(%OrderLine{}, %{
-        product: product,
-        order: order,
-        quantity: 1
+  def handle_event(
+        "remove-product",
+        %{"product_id" => product_id},
+        %{assigns: %{changeset: %{params: %{"lines" => lines}} = changeset}} = socket
+      ) do
+    changeset =
+      Order.changeset(changeset, %{
+        lines: Enum.reject(lines, &(&1.product_id == product_id))
       })
 
-    changeset = Order.changeset(order, %{lines: [order_line]})
+    {:noreply, assign(socket, changeset: changeset)}
+  end
+
+  def handle_event(
+        "increase-product-quantity",
+        %{"product_id" => product_id} = _params,
+        %{assigns: %{changeset: %{params: %{"lines" => lines}} = changeset}} = socket
+      ) do
+    changeset =
+      Order.changeset(changeset, %{
+        lines:
+          Enum.map(lines, fn line ->
+            if product_id == line.product_id do
+              Map.put(line, :quantity, line.quantity + 1)
+            end
+          end)
+      })
+
+    {:noreply, assign(socket, changeset: changeset)}
+  end
+
+  def handle_event(
+        "decrease-product-quantity" = _params,
+        %{"product_id" => product_id},
+        %{assigns: %{changeset: %{params: %{"lines" => lines}} = changeset}} = socket
+      ) do
+    IO.inspect(lines)
+
+    changeset =
+      Order.changeset(changeset, %{
+        lines:
+          Enum.map(lines, fn line ->
+            if product_id == line.product_id do
+              Map.put(line, :quantity, line.quantity - 1)
+            end
+          end)
+      })
+
     {:noreply, assign(socket, changeset: changeset)}
   end
 

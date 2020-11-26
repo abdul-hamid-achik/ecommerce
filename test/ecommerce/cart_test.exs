@@ -1,20 +1,34 @@
 defmodule Ecommerce.CartTest do
   use Ecommerce.DataCase
 
-  alias Ecommerce.Store
-  alias Ecommerce.Store.Cart
+  alias Ecommerce.{Store, Store.Cart, Store.Order}
   import Ecommerce.Factory
 
   setup do
-    account = insert(:account)
-    %{account: account}
+    user = insert(:account)
+    order = insert(:order, user: user)
+    products = insert_list(12, :product)
+
+    order_with_products = insert(:order, user: user)
+
+    Enum.each(0..3, fn _ ->
+      [product | _] = Enum.shuffle(products)
+      order_lines = insert(:order_line, product: product)
+    end)
+
+    %{
+      order: order,
+      products: products,
+      user: user,
+      order_with_products: order_with_products
+    }
   end
 
   describe "add_product/3" do
-    test "should add product to order when setting quantity to 1", %{account: account} do
+    test "should add product to order when setting quantity to 1", %{user: user} do
       product = insert(:product)
 
-      {:ok, order} = Store.create_order(%{user: account})
+      {:ok, order} = Store.create_order(%{user: user})
 
       {:ok, updated_order} = Cart.add_product(order, product, 2)
 
@@ -28,9 +42,9 @@ defmodule Ecommerce.CartTest do
   end
 
   describe "update_product/3" do
-    test "should update product quantity in order", %{account: account} do
+    test "should update product quantity in order", %{user: user} do
       product = insert(:product)
-      order = insert(:order, lines: [], user: account)
+      order = insert(:order, lines: [], user: user)
       insert(:order_line, order: order, product: product, quantity: 1)
       {:ok, updated_order} = Cart.update_product(order, product, 3)
       order_lines = Map.get(updated_order, :lines)
@@ -42,13 +56,35 @@ defmodule Ecommerce.CartTest do
   end
 
   describe "remove_product/2" do
-    test "should remove product from order", %{account: account} do
+    test "should remove product from order", %{user: user} do
       product = insert(:product)
-      order = insert(:order, lines: [], user: account)
+      order = insert(:order, lines: [], user: user)
       insert(:order_line, order: order, product: product, quantity: 3)
       {:ok, updated_order} = Cart.remove_product(order, product)
       order_lines = Map.get(updated_order, :lines)
       assert length(order_lines) == 0
+    end
+  end
+
+  @tag :wip
+  describe "is_product_in_car?/2" do
+    test "should return true when a product is in the cart", %{
+      user: user,
+      products: [product | _]
+    } do
+      changeset =
+        Order.changeset(%Order{}, %{user: user, lines: [%{product_id: product.id, quantity: 1}]})
+
+      assert true = Cart.is_product_in_car?(changeset, product)
+    end
+
+    test "should return false when a product is not in the cart", %{
+      user: user,
+      products: [product | _]
+    } do
+      changeset = Order.changeset(%Order{}, %{user: user})
+
+      assert true = Cart.is_product_in_car?(changeset, product)
     end
   end
 end

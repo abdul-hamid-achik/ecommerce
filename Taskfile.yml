@@ -24,12 +24,12 @@ tasks:
     cmds:
       - mix ecto.migrate
 
-  start:
+  server:
     deps: [migrate]
     cmds:
       - mix phx.server
 
-  start.iex:
+  iex.server:
     deps: [migrate]
     cmds:
       - iex -S mix phx.server
