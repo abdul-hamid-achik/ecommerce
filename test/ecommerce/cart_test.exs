@@ -66,7 +66,6 @@ defmodule Ecommerce.CartTest do
     end
   end
 
-  @tag :wip
   describe "is_product_in_car?/2" do
     test "should return true when a product is in the cart", %{
       user: user,

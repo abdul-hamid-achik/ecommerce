@@ -20,7 +20,6 @@ defmodule Ecommerce.Store.OrdersTest do
     %{order: order, products: products, user: user, order_with_products: order_with_products}
   end
 
-  @tag :wip
   describe "add_product_to_order/2" do
     test "should add product to order when receiving a changeset", %{
       products: [product | _],

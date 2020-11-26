@@ -15,7 +15,6 @@ defmodule EcommerceWeb.PageLiveTest do
     %{products: products}
   end
 
-  @tag :wip
   test "disconnected and connected render", %{conn: conn} do
     assert {
              :error,
@@ -28,7 +27,6 @@ defmodule EcommerceWeb.PageLiveTest do
            } = live(conn, "/")
   end
 
-  @tag :wip
   describe "Catalog" do
     setup %{authenticated_conn: conn} do
       {:ok, conn: conn}
