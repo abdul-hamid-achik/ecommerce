@@ -1,8 +1,8 @@
 defmodule EcommerceWeb.PageLiveTest do
   use EcommerceWeb.ConnCase
   import Ecommerce.Factory
-
   import Phoenix.LiveViewTest
+  alias Ecommerce.Catalog
 
   setup %{conn: conn} do
     user = insert(:account)
@@ -35,30 +35,30 @@ defmodule EcommerceWeb.PageLiveTest do
     end
 
     test "should show list of products", %{conn: conn, products: products} do
-      {:ok, view, html} = live(conn, "/")
+      {:ok, _view, html} = live(conn, "/")
       Enum.each(products, fn product -> assert html =~ "##{product.id}" end)
     end
 
     test "should show paginated list of products", %{conn: conn, products: products} do
       page = 1
       paginated_products = Catalog.paginate(products, page)
-      {:ok, view, html} = live(conn, "/?page=#{page}")
+      {:ok, _view, html} = live(conn, "/?page=#{page}")
       Enum.each(paginated_products, fn product -> assert html =~ "##{product.id}" end)
     end
 
-    test "should add product to cart when clicking button `add-to-cart`", %{conn: conn} do
+    test "should add product to cart when clicking button `add-to-cart`" do
     end
 
-    test "should remove product from cart when clicking button `remove-from-car`", %{conn: conn} do
+    test "should remove product from cart when clicking button `remove-from-car`" do
     end
   end
 
   @tag :wip
   describe "Cart" do
-    test "should update order price on product quantity increase", %{conn: conn} do
+    test "should update order price on product quantity increase" do
     end
 
-    test "should update order price on product quantity decrease", %{conn: conn} do
+    test "should update order price on product quantity decrease" do
     end
   end
 end

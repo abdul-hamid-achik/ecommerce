@@ -13,7 +13,7 @@ defmodule Ecommerce.CartTest do
 
     Enum.each(0..3, fn _ ->
       [product | _] = Enum.shuffle(products)
-      order_lines = insert(:order_line, product: product)
+      insert(:order_line, product: product)
     end)
 
     %{

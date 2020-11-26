@@ -5,8 +5,14 @@ defmodule Ecommerce.Catalog do
 
   import Ecto.Query, warn: false
   alias Ecommerce.Repo
-
   alias Ecommerce.Catalog.Product
+
+  @page_size 10
+
+  @spec paginate([Product.t()], number()) :: Scrivener.Page.t()
+  def paginate(products, page) do
+    Repo.paginate(products, page: page, page_size: @page_size)
+  end
 
   @doc """
   Returns the list of products.

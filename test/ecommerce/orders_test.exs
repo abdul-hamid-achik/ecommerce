@@ -1,10 +1,11 @@
 defmodule Ecommerce.Store.OrdersTest do
   use Ecommerce.DataCase
   import Ecommerce.Factory
-  alias Ecommerce.{Store.Orders, Store.Order, Catalog, Catalog.Product, Store}
+  alias Ecommerce.{Store.Orders, Store.Order, Catalog.Product}
   alias Ecto.Changeset
 
   setup do
+    # TODO: move this to a function
     user = insert(:account)
     order = insert(:order, user: user)
     products = insert_list(12, :product)
@@ -13,7 +14,7 @@ defmodule Ecommerce.Store.OrdersTest do
 
     Enum.each(0..3, fn _ ->
       [product | _] = Enum.shuffle(products)
-      order_lines = insert(:order_line, product: product)
+      insert(:order_line, product: product)
     end)
 
     %{order: order, products: products, user: user, order_with_products: order_with_products}
@@ -47,8 +48,7 @@ defmodule Ecommerce.Store.OrdersTest do
 
     test "should add new product to order when receiving a order with existing order lines", %{
       order_with_products: order,
-      products: products,
-      user: user
+      products: products
     } do
       %Product{id: product_id} = products |> Enum.shuffle() |> Enum.at(-1)
       changeset = Order.changeset(order, %{})
