@@ -1,3 +1,48 @@
-<button class="p-1 text-gray-400 rounded-full hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:shadow-outline focus:text-gray-500" aria-label="Cart">
-  <i class="fas fa-shopping-cart"></i>
-</button>
+<div class="relative inline-block text-left" 
+  id="cart"
+  x-data="{ open: false }" 
+  @click.prevent="open = false", >
+  <div>
+    <span class="rounded-md shadow-sm">
+      <%= submit [
+        class: "inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition ease-in-out duration-150", 
+        aria_label: "Cart", 
+        "@click.prevent": "open = !open", 
+        "@mouseover": "open = true", 
+        id: "cart--button"
+        # "@mouseleave.debounce.750ms": "open = false"
+      ] do %>
+        <i class="fas fa-shopping-cart"></i>
+      <% end %>
+    </span>
+  </div>
+  <div id="cart--list" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg" 
+    x-show="open" 
+    x-cloak
+    x-transition:enter="transition ease-out duration-100"
+    x-transition:enter-start="transform opacity-0 scale-95"
+    x-transition:enter-end="transform opacity-100 scale-100"
+    x-transition:leave="transition ease-in duration-75"
+    x-transition:leave-start="transform opacity-100 scale-100"
+    x-transition:leave-end="transform opacity-0 scale-95">
+    <div class="rounded-md bg-white shadow-xs">
+      <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+        <%= inputs_for @form, :lines, fn pf -> %>
+          <div id="cart--list-product" href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700" role="menuitem">
+              <span><%= get_product_name pf.params["product_id"] %></span>
+              <span><%= inspect pf.params["quantity"] %></span>
+              <button phx-click="increase-product-quantity" phx-value-product_id='<%= pf.params["product_id"] %>'>
+                <i class="fas fa-plus"></i>
+              </button>
+              <button phx-click="decrease-product-quantity" phx-value-product_id='<%= pf.params["product_id"] %>'>
+                <i class="fas fa-minus"></i>
+              </button>
+              <span phx-click="remove-product" phx-value-product_id='<%= pf.params["product_id"] %>'>
+                <i class="fas fa-times"></i>
+              </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

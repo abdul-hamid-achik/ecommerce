@@ -20,7 +20,7 @@ defmodule Ecommerce.MixProject do
   def application do
     [
       mod: {Ecommerce.Application, []},
-      extra_applications: [:ex_machina, :logger, :runtime_tools]
+      extra_applications: [:ex_machina, :scrivener, :logger, :runtime_tools]
     ]
   end
 
@@ -56,7 +56,9 @@ defmodule Ecommerce.MixProject do
       {:ex_machina, "~> 2.4"},
       {:faker, "~> 0.16"},
       {:ecto_enum, "~> 1.4"},
-      {:waffle_ecto, "~> 0.0.9"}
+      {:waffle_ecto, "~> 0.0.9"},
+      {:scrivener, "~> 2.0"},
+      {:scrivener_ecto, "~> 2.0"}
     ]
   end
 

@@ -1,14 +1,15 @@
-<div class="pb-5 border-b border-gray-200 space-y-3 sm:flex sm:items-center sm:justify-between sm:space-x-4 sm:space-y-0">
-  <h3 class="text-lg leading-6 font-medium text-gray-900">
-  </h3>
-  <div class="flex space-x-3">
-    <%= live_component @socket, Ecommerce.Components.Cart %>
+<%= f = form_for @changeset, "#", phx_validate: :validate, phx_save: :save %>
+  <div class="pb-5 border-b border-gray-200 space-y-3 sm:flex sm:items-center sm:justify-between sm:space-x-4 sm:space-y-0">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+    </h3>
+    <div class="flex space-x-3">
+      <%= live_component @socket, Ecommerce.Components.Cart, form: f %>
+    </div>
   </div>
-</div>
-<ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-  <%= for product <- @products do %>
-    <li>
-      <%= live_component @socket, Ecommerce.Components.Product, product: product %>
-    </li>
-  <% end %>
-</ul>
+  <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <%= for product <- @products do %>
+      <li>
+        <%= live_component @socket, Ecommerce.Components.Product, changeset: @changeset, product: product, id: product.id %>
+      </li>
+    <% end %>
+  </ul>

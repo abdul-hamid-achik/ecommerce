@@ -4,9 +4,11 @@ defmodule Ecommerce.Store do
   """
 
   import Ecto.Query, warn: false
-  alias Ecommerce.Repo
+  alias Ecommerce.{Store.Order, Store.OrderLine, Repo, Accounts.User}
 
-  alias Ecommerce.Store.{Order, OrderLine}
+  def get_or_create_order(%User{id: user_id} = _user) do
+    Repo.one(from order in Order, where: order.user_id == ^user_id, order_by: order.created_at)
+  end
 
   @doc """
   Returns the list of orders.

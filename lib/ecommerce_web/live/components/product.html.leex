@@ -1,4 +1,4 @@
-<div class="col-span-1 bg-white rounded-lg shadow">
+<div class="col-span-1 bg-white rounded-lg shadow" id="#<%= @product.id %>">
   <div class="flex-1 flex flex-col p-8">
       <img class="w-32 h-32 flex-shrink-0 mx-auto bg-black " src="<%= Ecommerce.Uploaders.Product.url @product.image %>" alt="<%= @product.description %>">
       <h3 class="mt-6 text-gray-900 text-sm leading-5 font-medium text-center"><%= @product.name %></h3>
@@ -19,10 +19,17 @@
         </a>
       </div>
       <div class="-ml-px w-0 flex-1 flex">
-        <a href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150" phx-click="add-product" phx-value-product_id="<%= @product.id %>">
+        <%= unless Ecommerce.Store.Cart.is_product_in_cart?(@changeset, @product) do %>
+        <a id="add-to-cart" href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150" phx-click="add-product" phx-value-product_id="<%= @product.id %>">
           <i class="fas fa-cart-plus"></i>
-          <span class="ml-3">Add To Cart</span>
+          <span class="ml-3">Add to Cart</span>
         </a>
+        <% else %>
+        <a id="remove-from-cart" href="#" class="relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm leading-5 text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 transition ease-in-out duration-150" phx-click="add-product" phx-value-product_id="<%= @product.id %>">
+          <i class="fas fa-cart-minus"></i>
+          <span class="ml-3">Remove from Cart</span>
+        </a>
+        <% end %>
       </div>
     </div>
   </div>
