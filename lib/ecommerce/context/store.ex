@@ -8,7 +8,6 @@ defmodule Ecommerce.Store do
 
   def get_or_create_order(%User{id: user_id} = _user) do
     Repo.one(from order in Order, where: order.user_id == ^user_id, order_by: order.created_at)
-    |> IO.inspect()
   end
 
   @doc """

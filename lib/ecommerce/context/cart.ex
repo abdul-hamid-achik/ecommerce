@@ -42,8 +42,8 @@ defmodule Ecommerce.Store.Cart do
     end
   end
 
-  @spec is_product_in_car?(Ecto.Changeset.t(), Product.t()) :: boolean()
-  def is_product_in_car?(
+  @spec is_product_in_cart?(Ecto.Changeset.t(), Product.t()) :: boolean()
+  def is_product_in_cart?(
         %{
           changes: %{
             lines: [
@@ -61,7 +61,7 @@ defmodule Ecommerce.Store.Cart do
       when verify_product_id == product_id,
       do: true
 
-  def is_product_in_car?(
+  def is_product_in_cart?(
         _changeset,
         _product
       ),

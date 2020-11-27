@@ -3,7 +3,7 @@ defmodule Ecommerce.Store.Order do
   import Ecto.Changeset
   import EctoEnum
 
-  @allowed_params []
+  @required [:user_id]
 
   defenum(StatusEnum, :status, [:open, :paid, :sent, :delivered])
 
@@ -20,9 +20,8 @@ defmodule Ecommerce.Store.Order do
 
   def changeset(order, attrs) do
     order
-    |> cast(attrs, @allowed_params)
-    |> validate_required([])
+    |> cast(attrs, @required)
+    |> validate_required(@required)
     |> cast_assoc(:lines)
-    |> put_assoc(:user, Map.get(attrs, :user))
   end
 end

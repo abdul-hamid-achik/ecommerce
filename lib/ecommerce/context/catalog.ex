@@ -9,9 +9,14 @@ defmodule Ecommerce.Catalog do
 
   @page_size 10
 
-  @spec paginate([Product.t()], number()) :: Scrivener.Page.t()
+  @spec paginate(Ecto.Queryable.t(), number()) :: Scrivener.Page.t()
   def paginate(products, page) do
     Repo.paginate(products, page: page, page_size: @page_size)
+  end
+
+  def products_base_query() do
+    Product
+    |> order_by(asc: :id)
   end
 
   @doc """

@@ -47,10 +47,11 @@ defmodule Ecommerce.Store.OrdersTest do
 
     test "should add new product to order when receiving a order with existing order lines", %{
       order_with_products: order,
+      user: user,
       products: products
     } do
       %Product{id: product_id} = products |> Enum.shuffle() |> Enum.at(-1)
-      changeset = Order.changeset(order, %{})
+      changeset = Order.changeset(order, %{user: user})
 
       assert %Changeset{
                params:

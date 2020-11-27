@@ -1,6 +1,6 @@
 defmodule EcommerceWeb.PageLive do
   use EcommerceWeb, :live_view
-  alias Ecommerce.{Catalog, Store.Order, Store.Orders, Store.OrderLine, Catalog.Product}
+  alias Ecommerce.{Catalog, Store.Order, Store.Orders, Catalog.Product}
   alias EcommerceWeb.Credentials
 
   def get_product_name(product_id) do
@@ -34,14 +34,9 @@ defmodule EcommerceWeb.PageLive do
   def handle_event(
         "remove-product",
         %{"product_id" => product_id},
-        %{assigns: %{changeset: %{params: %{"lines" => lines}} = changeset}} = socket
+        %{assigns: %{changeset: changeset}} = socket
       ) do
-    changeset =
-      Order.changeset(changeset, %{
-        lines: Enum.reject(lines, &(&1.product_id == product_id))
-      })
-
-    {:noreply, assign(socket, changeset: changeset)}
+    {:noreply, assign(socket, changeset: Orders.remove_product_from_order(changeset, product_id))}
   end
 
   def handle_event(
@@ -67,8 +62,6 @@ defmodule EcommerceWeb.PageLive do
         %{"product_id" => product_id},
         %{assigns: %{changeset: %{params: %{"lines" => lines}} = changeset}} = socket
       ) do
-    IO.inspect(lines)
-
     changeset =
       Order.changeset(changeset, %{
         lines:

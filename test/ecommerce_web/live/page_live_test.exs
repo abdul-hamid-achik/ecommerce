@@ -37,11 +37,12 @@ defmodule EcommerceWeb.PageLiveTest do
       Enum.each(products, fn product -> assert html =~ "##{product.id}" end)
     end
 
-    test "should show paginated list of products", %{conn: conn, products: products} do
+    test "should show paginated list of products", %{conn: conn} do
       page = 1
+      products = Catalog.products_base_query()
       paginated_products = Catalog.paginate(products, page)
       {:ok, _view, html} = live(conn, "/?page=#{page}")
-      Enum.each(paginated_products, fn product -> assert html =~ "##{product.id}" end)
+      Enum.each(paginated_products.entries, fn product -> assert html =~ "##{product.id}" end)
     end
 
     test "should add product to cart when clicking button `add-to-cart`" do

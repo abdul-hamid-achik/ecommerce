@@ -1,12 +1,12 @@
 defmodule Ecommerce.Store.Orders do
-  alias Ecommerce.Store.{Order, OrderLine}
+  alias Ecommerce.Store.{Order}
   alias Ecto.Changeset
 
   @spec add_product_to_order(Changeset.t(), String.t()) :: Changeset.t()
   def add_product_to_order(order, product_id) do
     previous_lines = Map.get(order.changes, :lines, [])
     lines = [%{product_id: product_id, quantity: 1} | previous_lines]
-    Order.changeset(order, %{lines: lines})
+    Order.changeset(order, Map.merge(order.changes, %{lines: lines}))
   end
 
   @spec remove_product_from_order(Changeset.t(), String.t()) :: Changeset.t()
